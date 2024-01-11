@@ -6,8 +6,7 @@ const Header = (props) =>{
   )
 }
 const Content = (props) =>{
-  props.items.forEach((course,num) => console.log(course,num))
-  const courses=props.items.map((course, num) => <p>{course}       {num}</p>)
+  const courses=props.items.map(course =><p key={course[1]}>{course[0]}: {course[1]}</p>)
   
   return(
     <div>
@@ -18,7 +17,7 @@ const Content = (props) =>{
 const Total = (props) =>{
   return(
     <div>
-     <p>Number of exercises {props.num}</p>
+     <p>Number of exercises: {props.num}</p>
     </div>
   )
 }
