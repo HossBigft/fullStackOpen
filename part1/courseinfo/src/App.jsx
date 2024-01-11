@@ -1,3 +1,27 @@
+const Header = (props) =>{
+  return(
+    <div>
+     <h1>{props.name}</h1>
+    </div>
+  )
+}
+const Content = (props) =>{
+  props.items.forEach((course,num) => console.log(course,num))
+  const courses=props.items.map((course, num) => <p>{course}       {num}</p>)
+  
+  return(
+    <div>
+     {courses}
+    </div>
+  )
+}
+const Total = (props) =>{
+  return(
+    <div>
+     <p>Number of exercises {props.num}</p>
+    </div>
+  )
+}
 const App = () => {
   const course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
@@ -9,17 +33,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>{course}</h1>
-      <p>
-        {part1} {exercises1}
-      </p>
-      <p>
-        {part2} {exercises2}
-      </p>
-      <p>
-        {part3} {exercises3}
-      </p>
-      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+      <Header name={course} />
+      <Content items={[[part1,exercises1],[part2,exercises2],[part3,exercises3]]} />
+      <Total num={exercises1 + exercises2 + exercises3}/>
     </div>
   )
 }
