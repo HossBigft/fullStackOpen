@@ -5,8 +5,15 @@ const Header = (props) =>{
     </div>
   )
 }
+
+const Part = (props) =>{
+  return(
+    <p key={props.content[1]}>{props.content[0]}: {props.content[1]}</p>
+  )
+}
+
 const Content = (props) =>{
-  const courses=props.items.map(course =><p key={course[1]}>{course[0]}: {course[1]}</p>)
+  const courses=props.items.map(course =><Part content={course} />)
   
   return(
     <div>
@@ -14,6 +21,7 @@ const Content = (props) =>{
     </div>
   )
 }
+
 const Total = (props) =>{
   return(
     <div>
@@ -21,6 +29,7 @@ const Total = (props) =>{
     </div>
   )
 }
+
 const App = () => {
   const course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
