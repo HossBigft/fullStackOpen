@@ -8,12 +8,12 @@ const Header = (props) =>{
 
 const Part = (props) =>{
   return(
-    <p key={props.content["name"]}>{props.content["name"]}: {props.content["exercises"]}</p>
+    <div> {props.content["name"]}: {props.content["exercises"]}</div>
   )
 }
 
 const Content = (props) =>{
-  const courses=props.items.map(course =><Part content={course} />)
+  const courses=props.items.map(course =><div key={course["name"]}><Part content={course}/> </div>)
   
   return(
     <div>
