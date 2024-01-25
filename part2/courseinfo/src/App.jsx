@@ -27,14 +27,11 @@ const Content = ({courses}) =>{
 }
 
 const Total = ({courses}) =>{
-  let sum=0
-  for (const course of courses){
-    sum+=course['exercises']
-  }
+  let sum= courses.reduce((acc, course)=> acc+course.exercises,0)
 
   return(
     <div>
-     <p>Number of exercises: {sum}</p>
+     <b>Total of {sum} exercises</b>
     </div>
   )
 }
