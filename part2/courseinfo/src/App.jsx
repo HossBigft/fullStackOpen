@@ -39,29 +39,16 @@ const Course = ({courses}) => {
 
 
   const content = courses.map(course => {
-    console.log(course.id);
-    console.log(course.name);
-    console.log(course.parts);
+    return(
     <div key={course.id}>
       <Header name={course.name}/>
       <Content courses={course.parts} />
       <Total courses={course.parts} />
-    </div>
+    </div>)
   })
-  Object.values(courses).forEach(course =>
-    { 
-      const buffer=[]
-      buffer.push(<Header name={course["name"]} />)
-      buffer.push(<Content courses={course["parts"]} />)
-      buffer.push(<Total courses={course["parts"]} />)
-      console.log(buffer)
-      content.push(buffer)
-    })
 
   return(
-    <div>
-    {content}
-    </div>
+    <>{content}</>
   )
 }
 
