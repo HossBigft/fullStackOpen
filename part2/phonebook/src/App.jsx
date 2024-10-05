@@ -31,6 +31,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <h2>add a new</h2>
       <form onSubmit={addRecord}>
         <div>
           name: <input value={name} onChange={handleNameChange} />
@@ -43,7 +44,7 @@ const App = () => {
       <h2>Numbers</h2>
       {records.map((entry) => (
         <div key={entry.name}>
-          {entry.name}:{entry.number}
+          {entry.name} {entry.number}
         </div>
       ))}
     </div>
