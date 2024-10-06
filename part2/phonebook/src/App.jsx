@@ -9,7 +9,6 @@ const Phonebook = ({ records, filterString }) => {
         );
   return (
     <div>
-      <h2>Numbers</h2>
       {recordsToPrint.map((record) => (
         <div key={record.name}>
           {record.name} {record.number}
@@ -28,7 +27,6 @@ const RecordForm = ({
 }) => {
   return (
     <div>
-      <h2>add a new</h2>
       <form onSubmit={onAddRecord}>
         <div>
           name: <input value={name} onChange={handleNameChange} />
@@ -45,8 +43,6 @@ const RecordForm = ({
 const Filter = ({ filterString, handler }) => {
   return (
     <div>
-      <h2>add a new</h2>
-      <h2>Phonebook</h2>
       <div>
         name: <input value={filterString} onChange={handler} />
       </div>
@@ -55,7 +51,7 @@ const Filter = ({ filterString, handler }) => {
 };
 
 const App = () => {
-  const [records, setRecords] = useState([{ name: "Arto Hellas", number: "" }]);
+  const [records, setRecords] = useState([{ name: "", number: "" }]);
   const [name, setNewName] = useState("");
   const [number, setNewNumber] = useState("");
   const [filterString, setFilterString] = useState("");
@@ -84,7 +80,9 @@ const App = () => {
   };
   return (
     <div>
+      <h2>Phonebook</h2>
       <Filter filterString={filterString} handler={handleFilterStringChange} />
+      <h2>add a new</h2>
       <RecordForm
         name={name}
         number={number}
@@ -92,6 +90,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
         onAddRecord={addRecord}
       />
+      <h2>Numbers</h2>
       <Phonebook records={records} filterString={filterString} />
     </div>
   );
