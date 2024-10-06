@@ -42,7 +42,17 @@ const RecordForm = ({
   );
 };
 
-
+const Filter = ({ filterString, handler }) => {
+  return (
+    <div>
+      <h2>add a new</h2>
+      <h2>Phonebook</h2>
+      <div>
+        name: <input value={filterString} onChange={handler} />
+      </div>
+    </div>
+  );
+};
 
 const App = () => {
   const [records, setRecords] = useState([{ name: "Arto Hellas", number: "" }]);
@@ -74,10 +84,7 @@ const App = () => {
   };
   return (
     <div>
-      <h2>Phonebook</h2>
-      <div>
-        name: <input value={filterString} onChange={handleFilterStringChange} />
-      </div>
+      <Filter filterString={filterString} handler={handleFilterStringChange} />
       <RecordForm
         name={name}
         number={number}
