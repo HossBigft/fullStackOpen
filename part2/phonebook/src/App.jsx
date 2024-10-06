@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const Record = ({ record }) => {
   return (
@@ -79,6 +80,17 @@ const App = () => {
   const handleFilterStringChange = (event) => {
     setFilterString(event.target.value);
   };
+
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setRecords(response.data)
+      })
+  }, [])
+
   return (
     <div>
       <h2>Phonebook</h2>
