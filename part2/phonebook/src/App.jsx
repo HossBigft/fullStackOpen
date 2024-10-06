@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Phonebook = ({ records , filterString}) => {
+const Phonebook = ({ records, filterString }) => {
   const recordsToPrint =
     filterString.length === 0
       ? records
@@ -19,6 +19,31 @@ const Phonebook = ({ records , filterString}) => {
   );
 };
 
+const RecordForm = ({
+  name,
+  number,
+  onAddRecord,
+  handleNameChange,
+  handleNumberChange,
+}) => {
+  return (
+    <div>
+      <h2>add a new</h2>
+      <form onSubmit={onAddRecord}>
+        <div>
+          name: <input value={name} onChange={handleNameChange} />
+        </div>
+        <div>
+          number: <input value={number} onChange={handleNumberChange} />
+        </div>
+        <button type="submit">add</button>
+      </form>
+    </div>
+  );
+};
+
+
+
 const App = () => {
   const [records, setRecords] = useState([{ name: "Arto Hellas", number: "" }]);
   const [name, setNewName] = useState("");
@@ -31,11 +56,10 @@ const App = () => {
       name: name,
       number: number,
     };
-    console.log(records);
+
     if (records.some((record) => record.name === newRecord.name))
       window.alert(`${newRecord.name} is already added to phonebook`);
     else setRecords(records.concat(newRecord));
-    console.log(records);
   };
 
   const handleNameChange = (event) => {
@@ -54,17 +78,14 @@ const App = () => {
       <div>
         name: <input value={filterString} onChange={handleFilterStringChange} />
       </div>
-      <h2>add a new</h2>
-      <form onSubmit={addRecord}>
-        <div>
-          name: <input value={name} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={number} onChange={handleNumberChange} />
-        </div>
-        <button type="submit">add</button>
-      </form>
-      <Phonebook records={records} filterString={filterString}/>
+      <RecordForm
+        name={name}
+        number={number}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+        onAddRecord={addRecord}
+      />
+      <Phonebook records={records} filterString={filterString} />
     </div>
   );
 };
