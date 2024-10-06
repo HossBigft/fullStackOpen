@@ -1,11 +1,30 @@
 import { useState } from "react";
 
+const Phonebook = ({ records , filterString}) => {
+  const recordsToPrint =
+    filterString.length === 0
+      ? records
+      : records.filter((record) =>
+          record.name.toLowerCase().includes(filterString.toLowerCase())
+        );
+  return (
+    <div>
+      <h2>Numbers</h2>
+      {recordsToPrint.map((record) => (
+        <div key={record.name}>
+          {record.name} {record.number}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const App = () => {
   const [records, setRecords] = useState([{ name: "Arto Hellas", number: "" }]);
   const [name, setNewName] = useState("");
   const [number, setNewNumber] = useState("");
   const [filterString, setFilterString] = useState("");
-  const [filteredRecords, setFilteredRecords] = useState("");
+
   const addRecord = (event) => {
     event.preventDefault();
     const newRecord = {
@@ -27,65 +46,27 @@ const App = () => {
     setNewNumber(event.target.value);
   };
   const handleFilterStringChange = (event) => {
-    const newFilterString = event.target.value;
-    setFilterString(newFilterString);
-    setFilteredRecords(
-      records.filter(record => record.name.toLowerCase().includes(newFilterString.toLowerCase()))
-    );
+    setFilterString(event.target.value);
   };
-
-  if (filterString === "")
-    return (
+  return (
+    <div>
+      <h2>Phonebook</h2>
       <div>
-        <h2>Phonebook</h2>
-        <div>
-          name:{" "}
-          <input value={filterString} onChange={handleFilterStringChange} />
-        </div>
-        <h2>add a new</h2>
-        <form onSubmit={addRecord}>
-          <div>
-            name: <input value={name} onChange={handleNameChange} />
-          </div>
-          <div>
-            number: <input value={number} onChange={handleNumberChange} />
-          </div>
-          <button type="submit">add</button>
-        </form>
-        <h2>Numbers</h2>
-        {records.map((entry) => (
-          <div key={entry.name}>
-            {entry.name} {entry.number}
-          </div>
-        ))}
+        name: <input value={filterString} onChange={handleFilterStringChange} />
       </div>
-    );
-  else
-    return (
-      <div>
-        <h2>Phonebook</h2>
+      <h2>add a new</h2>
+      <form onSubmit={addRecord}>
         <div>
-          name:{" "}
-          <input value={filterString} onChange={handleFilterStringChange} />
+          name: <input value={name} onChange={handleNameChange} />
         </div>
-        <h2>add a new</h2>
-        <form onSubmit={addRecord}>
-          <div>
-            name: <input value={name} onChange={handleNameChange} />
-          </div>
-          <div>
-            number: <input value={number} onChange={handleNumberChange} />
-          </div>
-          <button type="submit">add</button>
-        </form>
-        <h2>Numbers</h2>
-        {filteredRecords.map((entry) => (
-          <div key={entry.name}>
-            {entry.name} {entry.number}
-          </div>
-        ))}
-      </div>
-    );
+        <div>
+          number: <input value={number} onChange={handleNumberChange} />
+        </div>
+        <button type="submit">add</button>
+      </form>
+      <Phonebook records={records} filterString={filterString}/>
+    </div>
+  );
 };
 
 export default App;
