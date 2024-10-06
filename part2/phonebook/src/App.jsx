@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+const Record = ({ record }) => {
+  return (
+    <div key={record.name}>
+      {record.name} {record.number}
+    </div>
+  );
+};
 const Phonebook = ({ records, filterString }) => {
   const recordsToPrint =
     filterString.length === 0
@@ -7,15 +14,9 @@ const Phonebook = ({ records, filterString }) => {
       : records.filter((record) =>
           record.name.toLowerCase().includes(filterString.toLowerCase())
         );
-  return (
-    <div>
-      {recordsToPrint.map((record) => (
-        <div key={record.name}>
-          {record.name} {record.number}
-        </div>
-      ))}
-    </div>
-  );
+  return recordsToPrint.map((record) => (
+    <Record key={record.name} record={record} />
+  ));
 };
 
 const RecordForm = ({
@@ -51,7 +52,7 @@ const Filter = ({ filterString, handler }) => {
 };
 
 const App = () => {
-  const [records, setRecords] = useState([{ name: "", number: "" }]);
+  const [records, setRecords] = useState([]);
   const [name, setNewName] = useState("");
   const [number, setNewNumber] = useState("");
   const [filterString, setFilterString] = useState("");
