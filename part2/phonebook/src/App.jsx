@@ -72,16 +72,32 @@ const App = () => {
       name: name,
       number: number,
     };
-
-    if (records.some((record) => record.name === newRecord.name))
-      window.alert(`${newRecord.name} is already added to phonebook`);
-    else
-      recordService.create(newRecord).then((response) => {
-        setRecords(records.concat(response.data));
-        setNewName("");
-        setNewNumber("");
-      });
+    const foundRecord = records.find(
+      (record) => record.name === newRecord.name
+    );
+    if (foundRecord)
+      if (
+        window.confirm(
+          `${foundRecord.name} is already added to phonebook, replace the old number with a new one?`
+        )
+      )
+        recordService
+          .update(foundRecord.id, newRecord)
+          .then(() => {
+            return recordService.getAll();
+          })
+          .then((response) => {
+            console.log(response.data);
+            setRecords(response.data);
+          });
+      else
+        recordService.create(newRecord).then((response) => {
+          setRecords(records.concat(response.data));
+          setNewName("");
+          setNewNumber("");
+        });
   };
+
   const deleteRecord = (record) => () => {
     if (window.confirm(`Delete ${record.name} ?`))
       recordService
