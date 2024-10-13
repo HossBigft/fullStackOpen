@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
 import recordService from "./services/records";
-const Record = ({ record }) => {
+
+const Record = ({ record, onClick: handleClick }) => {
   return (
     <div key={record.name}>
       {record.name} {record.number}
+      <button onClick={handleClick(record.id)}>remove</button>
     </div>
   );
 };
-const Phonebook = ({ records, filterString }) => {
+
+const Phonebook = ({ records, filterString, onClick }) => {
   const recordsToPrint =
     filterString.length === 0
       ? records
@@ -15,7 +18,7 @@ const Phonebook = ({ records, filterString }) => {
           record.name.toLowerCase().includes(filterString.toLowerCase())
         );
   return recordsToPrint.map((record) => (
-    <Record key={record.name} record={record} />
+    <Record key={record.name} record={record} onClick={onClick} />
   ));
 };
 
@@ -59,7 +62,6 @@ const App = () => {
 
   useEffect(() => {
     recordService.getAll().then((response) => {
-      console.log(response.data);
       setRecords(response.data);
     });
   }, []);
@@ -76,11 +78,20 @@ const App = () => {
     else
       recordService.create(newRecord).then((response) => {
         setRecords(records.concat(response.data));
-        setNewName("")
-        setNewNumber("")
+        setNewName("");
+        setNewNumber("");
       });
   };
-
+  const deleteRecord = (id) => () => {
+    recordService
+      .remove(id)
+      .then(() => {
+        return recordService.getAll();
+      })
+      .then((response) => {
+        setRecords(response.data);
+      });
+  };
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -105,7 +116,11 @@ const App = () => {
         onAddRecord={addRecord}
       />
       <h2>Numbers</h2>
-      <Phonebook records={records} filterString={filterString} />
+      <Phonebook
+        records={records}
+        filterString={filterString}
+        onClick={deleteRecord}
+      />
     </div>
   );
 };
