@@ -5,7 +5,7 @@ const Record = ({ record, onClick: handleClick }) => {
   return (
     <div key={record.name}>
       {record.name} {record.number}
-      <button onClick={handleClick(record.id)}>remove</button>
+      <button onClick={handleClick(record)}>remove</button>
     </div>
   );
 };
@@ -82,15 +82,16 @@ const App = () => {
         setNewNumber("");
       });
   };
-  const deleteRecord = (id) => () => {
-    recordService
-      .remove(id)
-      .then(() => {
-        return recordService.getAll();
-      })
-      .then((response) => {
-        setRecords(response.data);
-      });
+  const deleteRecord = (record) => () => {
+    if (window.confirm(`Delete ${record.name} ?`))
+      recordService
+        .remove(record.id)
+        .then(() => {
+          return recordService.getAll();
+        })
+        .then((response) => {
+          setRecords(response.data);
+        });
   };
   const handleNameChange = (event) => {
     setNewName(event.target.value);
