@@ -59,10 +59,11 @@ const App = () => {
 
   useEffect(() => {
     recordService.getAll().then((response) => {
-      console.log(response.data)
+      console.log(response.data);
       setRecords(response.data);
     });
   }, []);
+
   const addRecord = (event) => {
     event.preventDefault();
     const newRecord = {
@@ -72,7 +73,12 @@ const App = () => {
 
     if (records.some((record) => record.name === newRecord.name))
       window.alert(`${newRecord.name} is already added to phonebook`);
-    else setRecords(records.concat(newRecord));
+    else
+      recordService.create(newRecord).then((response) => {
+        setRecords(records.concat(response.data));
+        setNewName("")
+        setNewNumber("")
+      });
   };
 
   const handleNameChange = (event) => {
@@ -85,7 +91,6 @@ const App = () => {
   const handleFilterStringChange = (event) => {
     setFilterString(event.target.value);
   };
-
 
   return (
     <div>
