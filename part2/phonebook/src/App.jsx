@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-
+import { useState, useEffect } from "react";
+import recordService from "./services/records";
 const Record = ({ record }) => {
   return (
     <div key={record.name}>
@@ -58,6 +57,12 @@ const App = () => {
   const [number, setNewNumber] = useState("");
   const [filterString, setFilterString] = useState("");
 
+  useEffect(() => {
+    recordService.getAll().then((response) => {
+      console.log(response.data)
+      setRecords(response.data);
+    });
+  }, []);
   const addRecord = (event) => {
     event.preventDefault();
     const newRecord = {
@@ -81,15 +86,6 @@ const App = () => {
     setFilterString(event.target.value);
   };
 
-  useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setRecords(response.data)
-      })
-  }, [])
 
   return (
     <div>
